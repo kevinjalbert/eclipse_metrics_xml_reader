@@ -15,7 +15,10 @@ def handleMethod(metricGroup):
 
     # Acquire list of individual values
     for value in overallValue:
-      dataPoints.add_method_data(metricGroup.get("id"), value.get("name"), value.get("value"))
+
+      # Acquire absolute name
+      name = value.get("package") + "." + value.get("source").replace(".java", "") + "." + value.get("name")
+      dataPoints.add_method_data(metricGroup.get("id"), name, value.get("value"))
 
 def handleClass(metricGroup):
 
@@ -24,7 +27,10 @@ def handleClass(metricGroup):
 
     # Acquire list of individual values
     for value in overallValue:
-      dataPoints.add_class_data(metricGroup.get("id"), value.get("name"), value.get("value"))
+
+      # Acquire absolute name
+      name = value.get("package") + "." + value.get("name")
+      dataPoints.add_class_data(metricGroup.get("id"), name, value.get("value"))
 
 def handlePackage(metricGroup):
 
@@ -72,8 +78,11 @@ def main():
     else:
       raise Exception("ERROR UNKNOWN METRIC", metricGroup.get("id"))
 
+    print "[LOG] : Finished Reading " + metricGroup.get("id") + " Metrics"
+
   # Write file
-    dataPoints.write_values(userArgs.outputName, userArgs.outputType)
+  dataPoints.write_values(userArgs.outputName, userArgs.outputType)
+  print "[LOG] : Finished Converting XML to " + userArgs.outputType
 
 # If this module is ran as main
 if __name__ == '__main__':
@@ -82,7 +91,6 @@ if __name__ == '__main__':
   parser = argparse.ArgumentParser(
       description = 'eclipse_metrics_xml_reader <https://github.com/kevinjalbert/eclipse_metrics_xml_reader>',
       version = 'eclipse_metrics_xml_reader 0.2.0')
-      #usage = 'python eclipse_metrics_xml_reader.py -i INPUTF')
   parser.add_argument(
       '-i',
       action='store',
