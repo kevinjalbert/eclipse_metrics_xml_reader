@@ -5,9 +5,6 @@ import os
 
 class DataPoints():
 
-  # Output directory
-  outputDirectory = './conversion_results/'
-
   # The metric groups used
   methodMetrics = ["MLOC", "NBD", "VG", "PAR"]
   classMetrics = ["NORM", "NOF", "NSC", "NOM", "DIT", "LCOM", "NSM", "SIX", "WMC", "NSF"]
@@ -39,12 +36,9 @@ class DataPoints():
 
   def write_values(self, fileName, fileType):
 
-    if not os.path.exists(self.outputDirectory):
-      os.mkdir(self.outputDirectory)
-
-    methodFile = open(self.outputDirectory + fileName + '_method.' + fileType, 'w')
-    classFile = open(self.outputDirectory + fileName + '_class.' + fileType, 'w')
-    packageFile = open(self.outputDirectory + fileName + '_package.' + fileType, 'w')
+    methodFile = open(fileName + '_method.' + fileType, 'w')
+    classFile = open(fileName + '_class.' + fileType, 'w')
+    packageFile = open(fileName + '_package.' + fileType, 'w')
 
     if fileType == "libsvm":
       self.write_to_libsvm(methodFile, self.methodData, self.methodMetrics)
@@ -62,9 +56,9 @@ class DataPoints():
     packageFile.close()
 
     # Write out the labels (names) for the data
-    methodLabelsFile = open(self.outputDirectory + fileName + '_method_lables', 'w')
-    classLabelsFile = open(self.outputDirectory + fileName + '_class_lables', 'w')
-    packageLabelsFile = open(self.outputDirectory + fileName + '_package_lables', 'w')
+    methodLabelsFile = open(fileName + '_method_lables', 'w')
+    classLabelsFile = open(fileName + '_class_lables', 'w')
+    packageLabelsFile = open(fileName + '_package_lables', 'w')
 
     self.write_labels(methodLabelsFile, self.methodData)
     self.write_labels(classLabelsFile, self.classData)

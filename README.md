@@ -19,7 +19,7 @@ _The python command is linked to the 2.7 version of Python_
 #Execution
 1. Download the source code and place it into a directory of choice
 2. Execute using the following command ```python eclipse_metric_xml_reader.py [OPTIONS]```
-3. Resulting files will be found in the ```./conversion_results/``` directory
+3. Resulting files will be found in the same directory as the input file
 
 #Options
 To see a list of the options run the following command ```python eclipse_metric_xml_reader.py -h```

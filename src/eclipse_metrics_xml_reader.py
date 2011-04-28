@@ -81,7 +81,7 @@ def main():
     print "[LOG] : Finished Reading " + metricGroup.get("id") + " Metrics"
 
   # Write file
-  dataPoints.write_values(userArgs.outputName, userArgs.outputType)
+  dataPoints.write_values(userArgs.inputFile, userArgs.outputType)
   print "[LOG] : Finished Converting XML to " + userArgs.outputType
 
 # If this module is ran as main
@@ -98,12 +98,6 @@ if __name__ == '__main__':
       dest='inputFile',
       help='Input XML file to be read (product of Eclipse Metrics Plugin)')
   parser.add_argument(
-      '-o',
-      action='store',
-      default=None,
-      dest='outputName',
-      help='Output file name (in present working directory) [Default=INPUTFILE]')
-  parser.add_argument(
       '-t',
       action='store',
       default='libsvm',
@@ -115,7 +109,5 @@ if __name__ == '__main__':
 
   if userArgs.inputFile == None:
     raise Exception("ERROR NO INPUT FILE SPECIFIED")
-  if userArgs.outputName == None:
-    userArgs.outputName = userArgs.inputFile
 
   main()
