@@ -20,12 +20,12 @@ class DataPoints():
   # Package Data: [name, NOC, CA, NOI, RMI, CE,  RMD, RMA]
   packageData = []
 
-  def write_labels(self, lableFile, data):
+  def write_labels(self, labelFile, data, metrics):
     for dataPoint in data:
-      lableFile.write(str(getattr(dataPoint,"name")) + '\n')
+      labelFile.write(str(getattr(dataPoint,"name")) + '\n')
+    labelFile.write('# ' + repr(metrics) + '\n# Matches line-to-line with the corresponding metrics file (no labels extension)')
 
   def write_to_libsvm(self, dataFile, data, metrics):
-    dataFile.write('#' + repr(metrics) + '\n')
     for dataPoint in data:
       fileCount = 1
       dataFile.write('-1')
@@ -56,13 +56,13 @@ class DataPoints():
     packageFile.close()
 
     # Write out the labels (names) for the data
-    methodLabelsFile = open(fileName + '_method_lables', 'w')
-    classLabelsFile = open(fileName + '_class_lables', 'w')
-    packageLabelsFile = open(fileName + '_package_lables', 'w')
+    methodLabelsFile = open(fileName + '_method.labels', 'w')
+    classLabelsFile = open(fileName + '_class.labels', 'w')
+    packageLabelsFile = open(fileName + '_package.labels', 'w')
 
-    self.write_labels(methodLabelsFile, self.methodData)
-    self.write_labels(classLabelsFile, self.classData)
-    self.write_labels(packageLabelsFile, self.packageData)
+    self.write_labels(methodLabelsFile, self.methodData, self.methodMetrics)
+    self.write_labels(classLabelsFile, self.classData, self.classMetrics)
+    self.write_labels(packageLabelsFile, self.packageData, self.packageMetrics)
 
   def write_to_csv(self, fileName):
     Exception("NOT YET IMPLEMENTED")

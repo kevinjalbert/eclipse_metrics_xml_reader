@@ -1,6 +1,7 @@
 from lxml import etree
 import data_points
 import argparse
+import os
 
 # Holds user arguments
 userArgs = None
@@ -81,7 +82,7 @@ def main():
     print "[LOG] : Finished Reading " + metricGroup.get("id") + " Metrics"
 
   # Write file
-  dataPoints.write_values(userArgs.inputFile, userArgs.outputType)
+  dataPoints.write_values(os.path.splitext(userArgs.inputFile)[0], userArgs.outputType)
   print "[LOG] : Finished Converting XML to " + userArgs.outputType
 
 # If this module is ran as main
