@@ -34,6 +34,21 @@ class DataPoints():
         fileCount += 1
       dataFile.write('\n')
 
+  def write_to_csv(self, dataFile, data, metrics):
+
+    # Write fields
+    dataFile.write("name")
+    for metric in metrics:
+      dataFile.write(',' + metric)
+    dataFile.write('\n')
+
+    # Write records
+    for dataPoint in data:
+      dataFile.write(getattr(dataPoint, 'name'))
+      for metric in metrics:
+        dataFile.write(',' + getattr(dataPoint, metric))
+      dataFile.write('\n')
+
   def write_values(self, fileName, fileType):
 
     methodFile = open(fileName + '_method.' + fileType, 'w')
@@ -44,28 +59,25 @@ class DataPoints():
       self.write_to_libsvm(methodFile, self.methodData, self.methodMetrics)
       self.write_to_libsvm(classFile, self.classData, self.classMetrics)
       self.write_to_libsvm(packageFile, self.packageData, self.packageMetrics)
+
+      # Write out the labels (names) for the data
+      methodLabelsFile = open(fileName + '_method.labels', 'w')
+      classLabelsFile = open(fileName + '_class.labels', 'w')
+      packageLabelsFile = open(fileName + '_package.labels', 'w')
+
+      self.write_labels(methodLabelsFile, self.methodData, self.methodMetrics)
+      self.write_labels(classLabelsFile, self.classData, self.classMetrics)
+      self.write_labels(packageLabelsFile, self.packageData, self.packageMetrics)
     elif fileType == "csv":
-      self.write_to_libsvm(methodFile, self.methodData, self.methodMetrics)
-      self.write_to_libsvm(classFile, self.classData, self.classMetrics)
-      self.write_to_libsvm(packageFile, self.packageData, self.packageMetrics)
+      self.write_to_csv(methodFile, self.methodData, self.methodMetrics)
+      self.write_to_csv(classFile, self.classData, self.classMetrics)
+      self.write_to_csv(packageFile, self.packageData, self.packageMetrics)
     else:
       raise Exception("ERROR UNKNOWN OUTPUT TYPE", userArgs.outputType)
 
     methodFile.close()
     classFile.close()
     packageFile.close()
-
-    # Write out the labels (names) for the data
-    methodLabelsFile = open(fileName + '_method.labels', 'w')
-    classLabelsFile = open(fileName + '_class.labels', 'w')
-    packageLabelsFile = open(fileName + '_package.labels', 'w')
-
-    self.write_labels(methodLabelsFile, self.methodData, self.methodMetrics)
-    self.write_labels(classLabelsFile, self.classData, self.classMetrics)
-    self.write_labels(packageLabelsFile, self.packageData, self.packageMetrics)
-
-  def write_to_csv(self, fileName):
-    Exception("NOT YET IMPLEMENTED")
 
   def method_index(self, name):
     index = 0
