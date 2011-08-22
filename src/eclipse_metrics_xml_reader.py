@@ -17,8 +17,12 @@ def handleMethod(metricGroup):
     # Acquire list of individual values
     for value in overallValue:
 
-      # Acquire absolute name
-      name = value.get("package") + "." + value.get("source").replace(".java", "") + "." + value.get("name")
+      # Acquire absolute name (take into account if there is an inner class)
+      name = None
+      if "#" in value.get("name"):
+        name = value.get("package") + "." + value.get("name").replace(".", "$").replace("#", ".")
+      else:
+        name = value.get("package") + "." + value.get("source").replace(".java", "") + "." + value.get("name")
       dataPoints.add_method_data(metricGroup.get("id"), name, value.get("value"))
 
 def handleClass(metricGroup):
