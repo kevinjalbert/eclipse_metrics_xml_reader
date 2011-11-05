@@ -20,6 +20,15 @@ class DataPoints():
   # Package Data: [name, NOC, CA, NOI, RMI, CE,  RMD, RMA]
   packageData = []
 
+  # Overloaded Methods (Ignore these on output)
+  overloadedMethods = []
+
+  def filter_overloads(self):
+    for overload in self.overloadedMethods:
+      for method in self.methodData[:]:
+        if method.name == overload:
+          self.methodData.remove(method)
+
   def write_labels(self, labelFile, data, metrics):
     for dataPoint in data:
       labelFile.write(str(getattr(dataPoint,"name")) + '\n')
@@ -50,6 +59,9 @@ class DataPoints():
       dataFile.write('\n')
 
   def write_values(self, fileName, fileType):
+
+    # Remove the overloaded methods from the date set
+    self.filter_overloads()
 
     methodFile = open(fileName + '_method.' + fileType, 'w')
     classFile = open(fileName + '_class.' + fileType, 'w')
@@ -105,14 +117,21 @@ class DataPoints():
 
   def add_method_data(self, metric, name, value):
     index = self.method_index(name)
+
     if index == -1:
       # Add new method to data set
       self.methodData.append(method_data_point.MethodDataPoint())
       self.methodData[index].name = name
       setattr(self.methodData[index], metric, value)
     else:
-      # Add value to existing data set
-      setattr(self.methodData[index], metric, value)
+      # Check to see if this method already has a value for this metric
+      if int(getattr(self.methodData[index], metric)) >= 1:
+        # An overloaded method is found, we want to ignore these
+        if not name in self.overloadedMethods:
+          self.overloadedMethods.append(name)
+      else:
+         # Add new value to existing data set
+        setattr(self.methodData[index], metric, value)
 
   def add_class_data(self, metric, name, value):
     index = self.class_index(name)
