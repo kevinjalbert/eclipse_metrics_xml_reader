@@ -25,3 +25,7 @@ _The python command is linked to the 2.7 version of Python_
 To see a list of the options run the following command ```python eclipse_metric_xml_reader.py -h```
 
 All the options are detailed in the [Options](https://github.com/kevinjalbert/eclipse_metrics_xml_reader/wiki/Options "Options") page.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/kevinjalbert/eclipse_metrics_xml_reader/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
