@@ -1,6 +1,12 @@
-Eclipse Metrics XML Reader
-=====
-[![Gitter Chat](http://img.shields.io/chat/gitter.png?color=brightgreen)](https://gitter.im/kevinjalbert/eclipse_metrics_xml_reader)
+# This repository is ⚰️ ARCHIVED ⚰️
+
+I haven't used/worked on this repository in quite some time, thus archiving it.
+
+Feel free to fork and take the project in a new direction. You could also contact me to unarchive it if you are willing to maintain it.
+
+-----
+
+# Eclipse Metrics XML Reader
 
 #Information
 
